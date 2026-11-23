@@ -93,3 +93,14 @@ nav a:hover {
   text-align: center;
 }
 
+input,
+select {
+  width: 100%;
+  padding: 0.6rem;
+  margin: 0.4rem 0 1rem;
+  box-sizing: border-box;
+  border: 1px solid #ccd;
+  border-radius: 6px;
+  background: white;
+  font: inherit;
+}

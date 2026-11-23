@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <title>ASCII-Only</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <header id="navbar"></header>
+    <form id="contactForm">
+      <h2>Contact Form</h2>
+      <p id="status">Lade SQL.js ...</p>
+      <select id="Anrede">
+        //this is one of the issues
+        <option value="Herr">Herr</option>
+        <option value="Frau">Frau</option>
+      </select>
+      <input id="Vorname" placeholder="Vorname" required />
+      <input id="Nachname" placeholder="Nachname" required />
+      <input id="Email" type="email" placeholder="E-Mail" required />
+      <button id="btn" disabled>Senden</button>
+      <pre id="output"></pre>
+    </form>
+
+    <script src="https://cdn.jsdelivr.net/npm/sql.js@1.10.3/dist/sql-wasm.js"></script>
+    <script>
+      let db;
+
+      // in browser DB
+      initSqlJs({
+        locateFile: (file) =>
+          `https://cdn.jsdelivr.net/npm/sql.js@1.10.3/dist/${file}`,
+      }).then((SQL) => {
+        db = new SQL.Database();
+        db.run(
+          "CREATE TABLE users (anrede TEXT, vorname TEXT, nachname TEXT, email TEXT)",
+        );
+        document.getElementById("status").textContent = "Bereit";
+        document.getElementById("btn").disabled = false;
+      });
+
+      document.getElementById("contactForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const anrede = document.getElementById("Anrede").value;
+        const vorname = document.getElementById("Vorname").value;
+        const nachname = document.getElementById("Nachname").value;
+        const email = document.getElementById("Email").value;
+
+
+        const NAME_REGEX = /^[A-Za-z]{2,20}$/;
+
+        if (!NAME_REGEX.test(vorname) || !NAME_REGEX.test(nachname)) { // this is the issue, we ojust flat deny anything non ascii
+          document.getElementById("output").textContent = "Ungültiger Name. Bitte nur Buchstaben A bis Z, 2 bis 20 Zeichen.";
+          document.getElementById("output").className = "error";
+          return;
+        }
+
+        document.getElementById("output").className = "ok";
+
+        db.run(
+          "INSERT INTO users (anrede, vorname, nachname, email) VALUES (?, ?, ?, ?)",
+          [anrede, vorname, nachname, email],
+        );
+
+        const rows = db
+          .exec("SELECT anrede, vorname, nachname, email FROM users")[0]
+          .values.map(
+            ([anr, vnr, nname, mail]) => `${anr} ${vnr} ${nname} <${mail}>`,
+          );
+        document.getElementById("output").textContent =
+          "Gespeichert:\n" + rows.join("\n");
+
+        if (anrede === "herr") {
+          // this is the other
+          document.getElementById("preview").textContent =
+            "An: " +
+            email +
+            "\nE-Mail-Anrede: Sehr geehrter Herr " +
+            vorname +
+            " " +
+            nachname;
+        } else {
+          document.getElementById("preview").textContent =
+            "An: " +
+            email +
+            "\nE-Mail-Anrede: Sehr geehrte Frau " +
+            vorname +
+            " " +
+            nachname;
+        }
+      });
+    </script>
+
+    <script>
+      fetch("nav.html")
+        .then((res) => res.text())
+        .then((html) => (document.getElementById("navbar").innerHTML = html));
+    </script>
+  </body>
+</html>
