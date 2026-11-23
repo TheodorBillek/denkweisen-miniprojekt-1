@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Namen sind doch einfach: Write-up</title>
+<style>
+  body { font-family: system-ui, sans-serif; max-width: 760px; margin: 2rem auto; padding: 0 1rem; color: #222; line-height: 1.6; }
+  h1 { text-align: center; }
+  h2 { margin-top: 2.5rem; border-bottom: 2px solid #4f46e5; padding-bottom: .3rem; }
+  pre { background: #f4f4f8; padding: .8rem; border-radius: 6px; overflow-x: auto; }
+  code { background: #f4f4f8; padding: 0 .25rem; border-radius: 4px; }
+  img { width: 100%; border: 1px solid #ccd; border-radius: 8px; }
+  figcaption { font-size: .85rem; color: #555; text-align: center; margin-bottom: 1rem; }
+</style>
+</head>
+<body>
+
+<h1>Namen sind doch einfach: Five bad forms</h1>
+
+<h2>1. SQL Injection</h2>
+<p>This is a login form more than a contact form, but to be honest I got bored of writing only contact forms. So treat this as an admin login to the backend for all the contact forms, or whatever. I also ripped the CSS and a bit of the HTML from a template, and I may have forgotten to turn it into a contact form before moving on.</p>
+<p>Anyway, we have a username and a password. The query in the backend looks something like this:</p>
+<pre><code>const sql = `SELECT * FROM users WHERE username = '${u}' AND password = '${p}'`;</code></pre>
+<p>You can check it yourself at <a href="https://github.com/TheodorBillek/denkweisen-miniprojekt-1">github.com/TheodorBillek/denkweisen-miniprojekt-1</a>, or by viewing the page source (CTRL+U in Brave and Chrome, I think).</p>
+<p>If you know anything about programming or cybersecurity, you'll see this is the insecure version of an SQL query. Without any checks, we paste two variables straight into the string, so an input like <code>admin' --</code> can bypass the password check and log you in as admin. If you're a bit more creative, <code>admin' OR 1=1 --</code> is always true and logs you in as admin too. This works because the username input closes the quote with <code>'</code>, and then <code>--</code> is an SQL comment that removes everything after it. For the password, you can enter anything, since it's ignored.</p>
+<figure>
+  <img src="images/denkweisen-mp1.billek.dev_1-sql-injection.html.png" alt="SQL injection form">
+  <figcaption>Form 1: login bypass with admin' --</figcaption>
+</figure>
+
+<h2>2. All-in-One</h2>
+<p>Here we take in all the fields separately: Anrede, first name, last name and email. We even let people write their own Anrede. Then we chuck it all into one column, called full name, and save that. This makes personalised greetings hell. In this case we end up just going with "Sehr geehrte*r", and even that generic greeting isn't great. So all we end up with is a mess that rarely actually works.</p>
+<figure>
+  <img src="images/denkweisen-mp1.billek.dev_2-all-in-one.html.png" alt="All-in-one form">
+  <figcaption>Form 2: Anrede and name stored in one column</figcaption>
+</figure>
+
+<h2>3. Limited Anrede and Mismatch</h2>
+<p>Here we not only have two options for the Anrede, but we also check for "herr" while the field value is "Herr". That way, even if we would satisfy someone by having their Anrede, it still wouldn't pick the right one, and we end up addressing everyone with "Frau".</p>
+<figure>
+  <img src="images/denkweisen-mp1.billek.dev_3-limited-anrede-and-mismatch.html.png" alt="Limited Anrede form">
+  <figcaption>Form 3: the check for "herr" never matches "Herr"</figcaption>
+</figure>
+
+<h2>4. ASCII-Only</h2>
+<p>This one should speak for itself. If we try to enter a name like Jürgen, or a name in another alphabet such as 李, we just can't handle it. We live in the 21st century and should be able to handle a bit more than ASCII. The check in this form is a little cheaty: the default way we handle input would allow more than ASCII, so I just check with a regex whether the input is ASCII and deny it if it isn't.</p>
+<figure>
+  <img src="images/denkweisen-mp1.billek.dev_4-ascii-only.html.png" alt="ASCII-only form">
+  <figcaption>Form 4: a regex rejects every name that isn't plain A to Z</figcaption>
+</figure>
+
+<h2>5. Splitting Name</h2>
+<p>Another simple one. Here we combine first and second name into one full name in the SQL database, and when we want to greet someone, we split it: <code>[0]</code> for the first name and <code>[1]</code> for the second. That's also quite bad, because what if someone is called John Hammond Peter? You could say just use a dash instead. Firstly, that would be a different name. Secondly, it breaks my code for some reason XD</p>
+<figure>
+  <img src="images/denkweisen-mp1.billek.dev_5-splitting-name.html.png" alt="Splitting name form">
+  <figcaption>Form 5: the name is split on spaces to build the greeting</figcaption>
+</figure>
+
+</body>
+</html>
