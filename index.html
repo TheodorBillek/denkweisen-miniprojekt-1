@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Meine Seite</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header id="navbar"></header>
+    <h1>Namen sind doch einfach: Denkweisen der Informatik, Miniprojekt 1</h1>
+
+    <script>
+      fetch("nav.html")
+        .then((res) => res.text())
+        .then((html) => (document.getElementById("navbar").innerHTML = html));
+    </script>
+  </body>
+</html>

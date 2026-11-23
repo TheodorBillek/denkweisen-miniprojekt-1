@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <title>Login (SQL-Injection-Demo)</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <header id="navbar"></header>
+    <form id="loginForm">
+      <h2>Contact Form</h2>
+      <p id="status">Lade SQL.js ...</p>
+      <input id="username" placeholder="Username" required autofocus />
+      <input id="password" type="password" placeholder="Passwort" required />
+      <button id="btn" disabled>Login</button>
+      <pre id="output" class="error"></pre>
+    </form>
+
+    <script src="https://cdn.jsdelivr.net/npm/sql.js@1.10.3/dist/sql-wasm.js"></script>
+    <script>
+      let db;
+
+      // in browser DB
+      initSqlJs({
+        locateFile: (file) =>
+          `https://cdn.jsdelivr.net/npm/sql.js@1.10.3/dist/${file}`,
+      }).then((SQL) => {
+        db = new SQL.Database();
+        db.run("CREATE TABLE users (username TEXT, password TEXT)");
+        db.run("INSERT INTO users VALUES ('admin', 'geheim123')");
+        db.run("INSERT INTO users VALUES ('alice', 'katze42')");
+        document.getElementById("status").textContent = "Bereit";
+        document.getElementById("btn").disabled = false;
+      });
+
+      document.getElementById("loginForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const u = document.getElementById("username").value;
+        const p = document.getElementById("password").value;
+
+        // sql injection here
+        const sql = `SELECT * FROM users WHERE username = '${u}' AND password = '${p}'`;
+
+        let out;
+        try {
+          const res = db.exec(sql);
+          if (res.length > 0 && res[0].values.length > 0) {
+            out = `Eingeloggt als ${res[0].values[0][0]}\nQuery: ${sql}`;
+            output.className = "ok";
+          } else {
+            out = `Falsche Daten\nQuery: ${sql}`;
+            output.className = "error";
+          }
+        } catch (err) {
+          out = `SQL-Fehler: ${err.message}\nQuery: ${sql}`;
+          output.className = "error";
+        }
+        document.getElementById("output").textContent = out;
+      });
+    </script>
+
+    <script>
+      fetch("nav.html")
+        .then((res) => res.text())
+        .then((html) => (document.getElementById("navbar").innerHTML = html));
+    </script>
+  </body>
+</html>
