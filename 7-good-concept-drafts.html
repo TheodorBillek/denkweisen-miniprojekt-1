@@ -1,51 +1,65 @@
 <!doctype html>
 <html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Namen sind doch einfach: Good Concepts</title>
-<link rel="stylesheet" href="style.css">
-</head>
-<body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Namen sind doch einfach: Good Concepts</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header id="navbar"></header>
 
-<header id="navbar"></header>
+    <main class="concepts">
+      <h1>7. Good Concepts</h1>
+      <p class="subtitle">
+        These are the six concepts developed by my colleague, the sixth of which
+        was implimented as <a href="6-good-design.html">form 6</a>.
+      </p>
 
-<main class="concepts">
-  <h1>7. Good Concepts</h1>
-  <p class="subtitle">These are the six concepts developed by my colleague, the sixth of which was implimented as <a href="6-good-design.html">form 6</a>.</p>
+      <div class="gallery">
+        <figure>
+          <a href="images/good-1.jpeg" target="_blank"
+            ><img src="images/good-1.jpeg" alt="Draft 1"
+          /></a>
+          <figcaption>Draft 1</figcaption>
+        </figure>
+        <figure>
+          <a href="images/good-2.jpeg" target="_blank"
+            ><img src="images/good-2.jpeg" alt="Draft 2"
+          /></a>
+          <figcaption>Draft 2</figcaption>
+        </figure>
+        <figure>
+          <a href="images/good-3.jpeg" target="_blank"
+            ><img src="images/good-3.jpeg" alt="Draft 3"
+          /></a>
+          <figcaption>Draft 3</figcaption>
+        </figure>
+        <figure>
+          <a href="images/good-4.jpeg" target="_blank"
+            ><img src="images/good-4.jpeg" alt="Draft 4"
+          /></a>
+          <figcaption>Draft 4</figcaption>
+        </figure>
+        <figure>
+          <a href="images/good-5.jpeg" target="_blank"
+            ><img src="images/good-5.jpeg" alt="Draft 5"
+          /></a>
+          <figcaption>Draft 5</figcaption>
+        </figure>
+        <figure>
+          <a href="images/good-6.jpeg" target="_blank"
+            ><img src="images/good-6.jpeg" alt="Draft 6"
+          /></a>
+          <figcaption>Draft 6 (implemented)</figcaption>
+        </figure>
+      </div>
+    </main>
 
-  <div class="gallery">
-    <figure>
-      <a href="images/good-1.jpeg" target="_blank"><img src="images/good-1.jpeg" alt="Draft 1"></a>
-      <figcaption>Draft 1</figcaption>
-    </figure>
-    <figure>
-      <a href="images/good-2.jpeg" target="_blank"><img src="images/good-2.jpeg" alt="Draft 2"></a>
-      <figcaption>Draft 2</figcaption>
-    </figure>
-    <figure>
-      <a href="images/good-3.jpeg" target="_blank"><img src="images/good-3.jpeg" alt="Draft 3"></a>
-      <figcaption>Draft 3</figcaption>
-    </figure>
-    <figure>
-      <a href="images/good-4.jpeg" target="_blank"><img src="images/good-4.jpeg" alt="Draft 4"></a>
-      <figcaption>Draft 4</figcaption>
-    </figure>
-    <figure>
-      <a href="images/good-5.jpeg" target="_blank"><img src="images/good-5.jpeg" alt="Draft 5"></a>
-      <figcaption>Draft 5</figcaption>
-    </figure>
-    <figure>
-      <a href="images/good-6.jpeg" target="_blank"><img src="images/good-6.jpeg" alt="Draft 6"></a>
-      <figcaption>Draft 6 (implemented)</figcaption>
-    </figure>
-  </div>
-</main>
-
-<script>
-  fetch("nav.html")
-    .then((res) => res.text())
-    .then((html) => (document.getElementById("navbar").innerHTML = html));
-</script>
-</body>
+    <script>
+      fetch("nav.html")
+        .then((res) => res.text())
+        .then((html) => (document.getElementById("navbar").innerHTML = html));
+    </script>
+  </body>
 </html>

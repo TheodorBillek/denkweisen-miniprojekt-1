@@ -48,11 +48,12 @@
         const nachname = document.getElementById("Nachname").value;
         const email = document.getElementById("Email").value;
 
-
         const NAME_REGEX = /^[A-Za-z]{2,20}$/;
 
-        if (!NAME_REGEX.test(vorname) || !NAME_REGEX.test(nachname)) { // this is the issue, we ojust flat deny anything non ascii
-          document.getElementById("output").textContent = "Ungültiger Name. Bitte nur Buchstaben A bis Z, 2 bis 20 Zeichen.";
+        if (!NAME_REGEX.test(vorname) || !NAME_REGEX.test(nachname)) {
+          // this is the issue, we ojust flat deny anything non ascii
+          document.getElementById("output").textContent =
+            "Ungültiger Name. Bitte nur Buchstaben A bis Z, 2 bis 20 Zeichen.";
           document.getElementById("output").className = "error";
           return;
         }
