@@ -15,7 +15,7 @@
 </head>
 <body>
 
-<h1>Namen sind doch einfach: Five bad forms</h1>
+<h1>Namen sind doch einfach: Five bad forms and a good one</h1>
 
 <h2>1. SQL Injection</h2>
 <p>This is a login form more than a contact form, but to be honest I got bored of writing only contact forms. So treat this as an admin login to the backend for all the contact forms, or whatever. I also ripped the CSS and a bit of the HTML from a template, and I may have forgotten to turn it into a contact form before moving on.</p>
@@ -54,6 +54,15 @@
 <figure>
   <img src="images/denkweisen-mp1.billek.dev_5-splitting-name.html.png" alt="Splitting name form">
   <figcaption>Form 5: the name is split on spaces to build the greeting</figcaption>
+</figure>
+
+<h2>6. The Good Form</h2>
+<p>This is a version of a good contact form, as conceived by my colleague. It asks for a legal name because the hotel needs to compare the registered name to an ID, needs to be able to check who they are dealing with, and is sometimes obligated to know who they are dealing with due to "Know your customer" laws.</p>
+<p>But we have an option to change how the person wants to be addressed, in case they don't want to be addressed with their legal name. We also give them a range of Anreden, including none.</p>
+<p>Furthermore, we allow all characters, and all fields are stored separately in separate columns. We never assume that we can split a name, or that people have 1, 2 or any specific number of names. The only thing we don't support is people without names, but even then they would be able to write in how they wish to be addressed. We also have a requirement that they need to have some form of legal ID, but that is more of a quirk of the legal system, less of our form.</p>
+<figure>
+  <img src="images/denkweisen-mp1.billek.dev_6-good-form.html.png" alt="Good contact form">
+  <figcaption>Form 6: legal name for identification, separate form of address, all characters allowed</figcaption>
 </figure>
 
 </body>
