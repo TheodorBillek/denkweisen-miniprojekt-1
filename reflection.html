@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Namen sind doch einfach: Reflexion &amp; Feedback</title>
+    <link rel="stylesheet" href="style.css?v=2" />
+  </head>
+  <body>
+    <header id="navbar"></header>
+    <main class="write-up">
+      <h1>Reflexion &amp; Feedback</h1>
+
+      <h2>Fragen</h2>
+      <ol>
+        <li>Glauben Sie, ein nachhaltiges Verständnis der gewählten Denkweise wird Ihnen im Studium oder danach im Beruf helfen?</li>
+        <li>Was haben Sie bei dieser Arbeit gelernt? Ist diese Art von Übungsformat Ihrer Meinung nach sinnvoll?</li>
+        <li>Hat das Schreiben der Reviews geholfen, Ihre eigene Arbeit zu verbessern? Falls ja: wie?</li>
+        <li>Haben die Reviews, die Sie bekommen haben, geholfen, Ihre eigene Arbeit zu verbessern? Falls ja: wie?</li>
+        <li>Sind Sie mit Ihrer Arbeit zufrieden?</li>
+      </ol>
+
+      <h2>Theodor Billek</h2>
+      <ol>
+        <li>
+          Yes, designing a good inclusive form, contact or otherwise, is always a
+          good skill to have. I also spent a lot of time using stuff like
+          <a href="https://sql.js.org/">sql.js</a> and got a lot more familiar
+          with JS, HTML and CSS, so that's great.
+        </li>
+        <li>sql.js, how to design a good form, more HTML, CSS and JS.</li>
+        <li>
+          We didn't have any mandatory reviews, but having Maksym check my work
+          and me check his work helped us find and even out our blind spots.
+        </li>
+        <li>I refer you to 3.</li>
+        <li>
+          No, because I put too much effort in and it took too long. I should have
+          studied GDS, but writing all that code by hand + templates was hell.
+        </li>
+      </ol>
+
+      <hr />
+
+      <h2>Maksym Kuzmov</h2>
+      <ol>
+        <li><!-- Antwort 1 --></li>
+        <li><!-- Antwort 2 --></li>
+        <li><!-- Antwort 3 --></li>
+        <li><!-- Antwort 4 --></li>
+        <li><!-- Antwort 5 --></li>
+      </ol>
+    </main>
+    <script>
+      fetch("nav.html")
+        .then((res) => res.text())
+        .then((html) => (document.getElementById("navbar").innerHTML = html));
+    </script>
+  </body>
+</html>
