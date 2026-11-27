@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Hotel Contact Form</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <header id="navbar"></header>
+    <div id="logo">[PlaceHolder Image]</div>
+    <form id="contactForm">
+      <h2>Contact Form</h2>
+      <p id="status">Lade SQL.js ...</p>
+      <input id="LegalName" placeholder="Full legal name" required autofocus />
+      <p>
+        Please fill out this field in accordance with the data in your travel
+        document for identification purposes.
+      </p>
+      <select id="Anrede">
+        // empty = no title
+        <option value="">— (none)</option>
+        <option value="Mr.">Mr.</option>
+        <option value="Ms.">Ms.</option>
+        <option value="Mrs.">Mrs.</option>
+        <option value="Mx.">Mx.</option>
+      </select>
+      <label>
+        <input id="UsePreferred" type="checkbox" />
+        I wouldn't like to be addressed using my full legal name
+      </label>
+      <input id="PreferredName" placeholder="Name to use instead" hidden />
+      <input id="Email" type="email" placeholder="E-Mail" required />
+      <select id="Category" required>
+        <option value="">Request category</option>
+        <option value="Booking">Booking</option>
+        <option value="Existing reservation">Existing reservation</option>
+        <option value="Events">Events</option>
+        <option value="Other">Other</option>
+      </select>
+      <textarea id="Message" rows="6" placeholder="Message" required></textarea>
+      <button id="btn" disabled>Submit</button>
+      <pre id="output"></pre>
+      <pre id="preview"></pre>
+    </form>
+
+    <script src="https://cdn.jsdelivr.net/npm/sql.js@1.10.3/dist/sql-wasm.js"></script>
+    <script>
+      let db;
+
+      // in browser DB
+      initSqlJs({
+        locateFile: (file) =>
+          `https://cdn.jsdelivr.net/npm/sql.js@1.10.3/dist/${file}`,
+      }).then((SQL) => {
+        db = new SQL.Database();
+        db.run(
+          "CREATE TABLE users (legal_name TEXT, anrede TEXT, preferred_name TEXT, email TEXT, category TEXT, message TEXT)",
+        );
+        document.getElementById("status").textContent = "Bereit";
+        document.getElementById("btn").disabled = false;
+      });
+
+      document.getElementById("UsePreferred").addEventListener("change", (e) => {
+        document.getElementById("PreferredName").hidden = !e.target.checked;
+        document.getElementById("PreferredName").required = e.target.checked;
+      });
+
+      document.getElementById("contactForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const legalName = document.getElementById("LegalName").value;
+        const anrede = document.getElementById("Anrede").value;
+        const usePreferred = document.getElementById("UsePreferred").checked;
+        const preferredName = document.getElementById("PreferredName").value;
+        const email = document.getElementById("Email").value;
+        const category = document.getElementById("Category").value;
+        const message = document.getElementById("Message").value;
+
+        db.run(
+          "INSERT INTO users (legal_name, anrede, preferred_name, email, category, message) VALUES (?, ?, ?, ?, ?, ?)",
+          [
+            legalName,
+            anrede,
+            usePreferred ? preferredName : null,
+            email,
+            category,
+            message,
+          ],
+        );
+
+        const rows = db
+          .exec("SELECT legal_name, email, category FROM users")[0]
+          .values.map(([name, mail, cat]) => `${name} <${mail}> (${cat})`);
+        document.getElementById("output").textContent =
+          "Gespeichert:\n" + rows.join("\n");
+
+        // no splitting, just use the name as typed
+        const name = usePreferred ? preferredName : legalName;
+        const greeting = anrede ? `Dear ${anrede} ${name}` : `Dear ${name}`;
+
+        document.getElementById("preview").textContent =
+          "An: " + email + "\nE-Mail-Anrede: " + greeting;
+      });
+    </script>
+
+    <script>
+      fetch("nav.html")
+        .then((res) => res.text())
+        .then((html) => (document.getElementById("navbar").innerHTML = html));
+    </script>
+  </body>
+</html>
