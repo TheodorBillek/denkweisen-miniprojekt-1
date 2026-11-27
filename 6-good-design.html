@@ -61,10 +61,12 @@
         document.getElementById("btn").disabled = false;
       });
 
-      document.getElementById("UsePreferred").addEventListener("change", (e) => {
-        document.getElementById("PreferredName").hidden = !e.target.checked;
-        document.getElementById("PreferredName").required = e.target.checked;
-      });
+      document
+        .getElementById("UsePreferred")
+        .addEventListener("change", (e) => {
+          document.getElementById("PreferredName").hidden = !e.target.checked;
+          document.getElementById("PreferredName").required = e.target.checked;
+        });
 
       document.getElementById("contactForm").addEventListener("submit", (e) => {
         e.preventDefault();

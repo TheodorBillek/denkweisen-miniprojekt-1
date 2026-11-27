@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Namen sind doch einfach: Cheat Sheet</title>
+    <link rel="stylesheet" href="style.css?v=2" />
+  </head>
+  <body>
+    <header id="navbar"></header>
+
+    <main class="cheat-sheet">
+      <h1>Cheat Sheet: Names &amp; Greetings in Forms</h1>
+      <p class="subtitle">Best practices for developers.</p>
+
+      <section>
+        <h2>The five most important things from what we read</h2>
+        <ol>
+          <li>
+            <strong>Everyone has a given name and a family name:</strong> We
+            will have a legal name field for identification, and a second field
+            for the given name or the name they want to be addressed by. The
+            email will use the second field. This way we can check identity and
+            still let people use the name they prefer.
+          </li>
+          <li>
+            <strong>Names only use plain Latin letters:</strong> It should be
+            obvious why this one is included.
+            <span class="ref"><a href="4-ascii-only.html">see form 4</a></span>
+          </li>
+          <li>
+            <strong>Names have a maximum length:</strong> The same applies here.
+          </li>
+          <li>
+            <strong
+              >Gender can be read from a name or fixed to two options:</strong
+            >
+            It can't be inferred, so let people specify it or leave it out.
+            <span class="ref"
+              ><a href="3-limited-anrede-and-mismatch.html">see form 3</a></span
+            >
+          </li>
+          <li>
+            <strong>The legal name is the name to greet someone with:</strong>
+            We greet people the way they want to be greeted. The legal name is
+            only for identification.
+          </li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Names</h2>
+        <ul>
+          <li>
+            Don't split or modify names if you somehow can. We never assume that
+            we can split a name, or that people have 1, 2 or any specific amount
+            of names.
+            <span class="ref"
+              ><a href="5-splitting-name.html">see form 5</a></span
+            >
+          </li>
+          <li>
+            Support as many characters as you can. We are in a modern day and
+            age, we have the technological capability and we have the storage
+            available to us.
+            <span class="ref"><a href="4-ascii-only.html">see form 4</a></span>
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Legal name &amp; how people want to be addressed</h2>
+        <ul>
+          <li>
+            If you need some kind of identifier for in-person authentication or
+            so, you can ask for a legal name and then just expect them to show
+            an ID with that name that matches them.
+          </li>
+          <li>
+            But it's also a good idea to include an option to add an alternative
+            way of being called. Having it done with a tick box is a good idea,
+            because then it doesn't disturb people who don't need it, but people
+            who want it can use it. Best for both and little effort for us.
+          </li>
+          <li>
+            I mean, a lot of sites identify you with an email address and have
+            you choose a username. This isn't that different.
+          </li>
+          <li>
+            And for your form of address, have a couple of options including a
+            none, or just let people make their own.
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Data</h2>
+        <ul>
+          <li>
+            Store things in separate data entries (note: have backups). If you
+            chuck it all into one column, it makes personalised greetings hell.
+            <span class="ref"><a href="2-all-in-one.html">see form 2</a></span>
+          </li>
+          <li>
+            Check for exactly what the field sends: if you check for "herr"
+            while the field is "Herr", it still won't pick the right one, and
+            you end up addressing everyone with "Frau".
+            <span class="ref"
+              ><a href="3-limited-anrede-and-mismatch.html">see form 3</a></span
+            >
+          </li>
+        </ul>
+      </section>
+
+      <section class="security">
+        <h2>Security</h2>
+        <ul>
+          <li>
+            Make sure your form/site doesn't include any of the OWASP Top 10.
+            They are easy to check, and you can even hire people to do this for
+            relatively cheap, and it will stop a lot of attacks. One presented
+            here was SQL injection.
+            <span class="ref"
+              ><a href="1-sql-injection.html">see form 1</a></span
+            >
+          </li>
+        </ul>
+      </section>
+    </main>
+
+    <script>
+      fetch("nav.html")
+        .then((res) => res.text())
+        .then((html) => (document.getElementById("navbar").innerHTML = html));
+    </script>
+  </body>
+</html>

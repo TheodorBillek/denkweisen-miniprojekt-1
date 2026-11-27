@@ -54,7 +54,6 @@
           .exec("SELECT anrede, name, email FROM users")[0]
           .values.at(-1);
 
-        
         const vorname = storedName.split(" ")[0];
         const nachname = storedName.split(" ")[1];
         const greeting = `Sehr geehrte${storedAnrede === "Frau" ? "" : "r"} ${storedAnrede} ${vorname} ${nachname}`;
